@@ -9,7 +9,7 @@ local Rayfield = RayfieldLibrary()
 
 -- GUI Window
 local Window = Rayfield:CreateWindow({
-    Name = "MM2 Summer Autofarm | by Yureiii",
+    Name = "MM2 Summer Autofarm ⛱️🌞| by Norqueloid",
     LoadingTitle = "Loading Rayfield...",
     LoadingSubtitle = "Please wait",
     ConfigurationSaving = { Enabled = false },
@@ -35,7 +35,7 @@ end)
 
 -- Vars
 local map
-local delay = 1.2
+local delay = 0.6
 getgenv().farm = false
 
 -- Autofarm Toggle (Safe Tween)
@@ -88,7 +88,7 @@ MainTab:CreateToggle({
 -- Delay Input (with confirmation)
 MainTab:CreateInput({
     Name = "Tween Delay (seconds)",
-    PlaceholderText = "Default = 1.2",
+    PlaceholderText = "Default = 0.6",
     RemoveTextAfterFocusLost = true,
     Callback = function(input)
         local val = tonumber(input)
@@ -135,6 +135,6 @@ UtilityTab:CreateButton({
 
 -- Info Tab
 InfoTab:CreateParagraph({
-    Title = "Script by Yureiii",
-    Content = "t.me/arceusxscripts\nSafe + Smooth Autofarm for MM2 BeachBalls.",
+    Title = "Script by Norqueloid",
+    Content = "www.youtube.com/@norqueloid\nSafe + Smooth Autofarm for MM2 BeachBalls.",
 })
