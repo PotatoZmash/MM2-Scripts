@@ -9,6 +9,7 @@ local Rayfield = RayfieldLibrary()
 
 -- GUI Window
 local Window = Rayfield:CreateWindow({
+    Name = "MM2 Summer Autofarm | by Yureiii",
     Name = "MM2 Summer Autofarm ⛱️🌞| by Norqueloid",
     LoadingTitle = "Loading Rayfield...",
     LoadingSubtitle = "Please wait",
@@ -35,6 +36,7 @@ end)
 
 -- Vars
 local map
+local delay = 1.2
 local delay = 0.6
 getgenv().farm = false
 
@@ -70,8 +72,8 @@ MainTab:CreateToggle({
                                         p.CanCollide = false
                                     end
                                 end
-                                local goal = {CFrame = (coin.CFrame * CFrame.new(0, 3, 0)) * CFrame.Angles(math.rad(90), 0, 0)}
-                                local tween = ts:Create(humPart, TweenInfo.new(0.75, Enum.EasingStyle.Linear)
+                                local goal = { CFrame = coin.CFrame * CFrame.new(0, 3, 0) }
+                                local tween = ts:Create(humPart, TweenInfo.new(0.7, Enum.EasingStyle.Linear), goal)
                                 tween:Play()
                                 tween.Completed:Wait()
                                 task.wait(delay)
@@ -88,6 +90,7 @@ MainTab:CreateToggle({
 -- Delay Input (with confirmation)
 MainTab:CreateInput({
     Name = "Tween Delay (seconds)",
+    PlaceholderText = "Default = 1.2",
     PlaceholderText = "Default = 0.6",
     RemoveTextAfterFocusLost = true,
     Callback = function(input)
@@ -135,6 +138,8 @@ UtilityTab:CreateButton({
 
 -- Info Tab
 InfoTab:CreateParagraph({
+    Title = "Script by Yureiii",
+    Content = "t.me/arceusxscripts\nSafe + Smooth Autofarm for MM2 BeachBalls.",
     Title = "Script by Norqueloid",
     Content = "www.youtube.com/@norqueloid\nSafe + Smooth Autofarm for MM2 BeachBalls.",
 })
