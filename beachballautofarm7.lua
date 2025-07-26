@@ -73,7 +73,7 @@ MainTab:CreateToggle({
                                     end
                                 end
                                 local goal = { CFrame = coin.CFrame * CFrame.new(0, 3, 0) }
-                                local tween = ts:Create(humPart, TweenInfo.new(0.7, Enum.EasingStyle.Linear), goal)
+                                local tween = ts:Create(humPart, TweenInfo.new(1.5, Enum.EasingStyle.Linear), goal)
                                 tween:Play()
                                 tween.Completed:Wait()
                                 task.wait(delay)
