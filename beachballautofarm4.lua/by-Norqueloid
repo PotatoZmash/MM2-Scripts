@@ -33,7 +33,7 @@ plr.CharacterAdded:Connect(function(char)
     humPart = char:WaitForChild("HumanoidRootPart")
 end)
 
-local delay = 2.5
+local delay = 1
 local map
 getgenv().farm = false
 
