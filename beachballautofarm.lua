@@ -7,11 +7,11 @@ end
 
 local Rayfield = RayfieldLibrary()
 
--- Create Main GUI Window
+-- Create Window
 local Window = Rayfield:CreateWindow({
-    Name = "MM2 Summer BeachBall Autofarm | by Yureiii",
-    LoadingTitle = "Loading Rayfield GUI...",
-    LoadingSubtitle = "Powered by Rayfield",
+    Name = "MM2 Summer GUI | by Yureiii",
+    LoadingTitle = "Rayfield is Loading...",
+    LoadingSubtitle = "Please wait",
     ConfigurationSaving = {
         Enabled = false,
     },
@@ -21,7 +21,12 @@ local Window = Rayfield:CreateWindow({
     KeySystem = false,
 })
 
--- Player / Character Setup
+-- Create Tabs
+local MainTab = Window:CreateTab("🌴 Autofarm", 4483362458) -- Icon ID for palm tree
+local UtilityTab = Window:CreateTab("⚙️ Utilities", 6034818373) -- Icon ID for gear
+local InfoTab = Window:CreateTab("📌 Info", 6031302924)
+
+-- Variables
 local plr = game.Players.LocalPlayer
 local character = plr.Character or plr.CharacterAdded:Wait()
 local humPart = character:WaitForChild("HumanoidRootPart")
@@ -31,13 +36,12 @@ plr.CharacterAdded:Connect(function(char)
     humPart = char:WaitForChild("HumanoidRootPart")
 end)
 
--- Setup Variables
 local map
 local delay = 2.5
 getgenv().farm = false
 
 -- Autofarm Toggle
-Window:CreateToggle({
+MainTab:CreateToggle({
     Name = "BeachBall Autofarm",
     CurrentValue = false,
     Callback = function(value)
@@ -63,7 +67,9 @@ Window:CreateToggle({
                                 if not humPart then break end
                             end
                             for _, p in pairs(character:GetChildren()) do
-                                if p:IsA("BasePart") and p.CanCollide then p.CanCollide = false end
+                                if p:IsA("BasePart") and p.CanCollide then
+                                    p.CanCollide = false
+                                end
                             end
                             humPart.CFrame = coin.CFrame * CFrame.new(0, 6, 0)
                             task.wait(delay)
@@ -77,7 +83,7 @@ Window:CreateToggle({
 })
 
 -- Delay Input Box
-Window:CreateInput({
+MainTab:CreateInput({
     Name = "Farm Delay (seconds)",
     PlaceholderText = "Default: 2.5",
     RemoveTextAfterFocusLost = true,
@@ -87,7 +93,7 @@ Window:CreateInput({
 })
 
 -- Anti-AFK Button
-Window:CreateButton({
+UtilityTab:CreateButton({
     Name = "Enable Anti-AFK",
     Callback = function()
         local GC = getconnections or get_signal_cons
@@ -103,15 +109,15 @@ Window:CreateButton({
             end)
         end
         Rayfield:Notify({
-            Title = "Anti-AFK",
-            Content = "Anti-AFK has been enabled!",
+            Title = "Anti-AFK Enabled",
+            Content = "You will no longer be kicked!",
             Duration = 4,
         })
     end,
 })
 
--- Footer Credit Label
-Window:CreateParagraph({
-    Title = "Script by Yureiii",
-    Content = "Join: t.me/arceusxscripts",
+-- Info Tab
+InfoTab:CreateParagraph({
+    Title = "Credits",
+    Content = "Made by Yureiii | t.me/arceusxscripts"
 })
