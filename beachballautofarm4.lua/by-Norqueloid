@@ -33,7 +33,7 @@ plr.CharacterAdded:Connect(function(char)
     humPart = char:WaitForChild("HumanoidRootPart")
 end)
 
-local delay = 1
+local delay = 0.5
 local map
 getgenv().farm = false
 
@@ -83,7 +83,7 @@ MainTab:CreateToggle({
 -- Farm Delay
 MainTab:CreateInput({
     Name = "Tween Delay (seconds)",
-    PlaceholderText = "Default = 1.5",
+    PlaceholderText = "Default = 0.5",
     RemoveTextAfterFocusLost = true,
     Callback = function(input)
         local val = tonumber(input)
