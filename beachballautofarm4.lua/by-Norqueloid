@@ -1,0 +1,135 @@
+-- Load Rayfield Library
+local success, RayfieldLibrary = pcall(loadstring, game:HttpGet("https://sirius.menu/rayfield"))
+if not success then
+    warn("Rayfield failed to load!")
+    return
+end
+
+local Rayfield = RayfieldLibrary()
+
+-- Window Setup
+local Window = Rayfield:CreateWindow({
+    Name = "MM2 Summer ⛱️🌞 | Beachball Autofarm by Norqueloid",
+    LoadingTitle = "Loading GUI...",
+    LoadingSubtitle = "Rayfield Autofarm",
+    ConfigurationSaving = { Enabled = false },
+    Discord = { Enabled = false },
+    KeySystem = false,
+})
+
+-- Tabs
+local MainTab = Window:CreateTab("🌴 Autofarm", 4483362458)
+local UtilityTab = Window:CreateTab("⚙️ Utilities", 6034818373)
+local InfoTab = Window:CreateTab("📌 Info", 6031302924)
+
+-- Variables
+local plr = game.Players.LocalPlayer
+local character = plr.Character or plr.CharacterAdded:Wait()
+local humPart = character:WaitForChild("HumanoidRootPart")
+local ts = game:GetService("TweenService")
+
+plr.CharacterAdded:Connect(function(char)
+    character = char
+    humPart = char:WaitForChild("HumanoidRootPart")
+end)
+
+local delay = 2.5
+local map
+getgenv().farm = false
+
+-- Autofarm Toggle with Tween Movement
+MainTab:CreateToggle({
+    Name = "BeachBall Tween Autofarm",
+    CurrentValue = false,
+    Callback = function(state)
+        getgenv().farm = state
+        while getgenv().farm do
+            if not map or not map.Parent then
+                for _, m in ipairs(game.Workspace:GetDescendants()) do
+                    if m:IsA("Model") and m.Name == "CoinContainer" then
+                        map = m
+                        break
+                    end
+                end
+            end
+
+            if map and map.Parent then
+                for _, coin in ipairs(map:GetChildren()) do
+                    if not getgenv().farm then break end
+                    if coin:IsA("Part") and coin.Name == "Coin_Server" and coin:GetAttribute("CoinID") == "BeachBall" then
+                        local cv = coin:FindFirstChild("CoinVisual")
+                        if cv and cv.Transparency ~= 1 then
+                            humPart = character and character:FindFirstChild("HumanoidRootPart")
+                            if not humPart then break end
+
+                            for _, p in pairs(character:GetChildren()) do
+                                if p:IsA("BasePart") and p.CanCollide then p.CanCollide = false end
+                            end
+
+                            local goal = { CFrame = coin.CFrame * CFrame.new(0, 3, 0) }
+                            local tween = ts:Create(humPart, TweenInfo.new(0.8, Enum.EasingStyle.Linear), goal)
+                            tween:Play()
+                            tween.Completed:Wait()
+                            task.wait(delay)
+                        end
+                    end
+                end
+            end
+            task.wait(0.5)
+        end
+    end,
+})
+
+-- Farm Delay
+MainTab:CreateInput({
+    Name = "Tween Delay (seconds)",
+    PlaceholderText = "Default = 1.5",
+    RemoveTextAfterFocusLost = true,
+    Callback = function(input)
+        local val = tonumber(input)
+        if val then
+            delay = val
+            Rayfield:Notify({
+                Title = "Delay Updated",
+                Content = "New tween delay set to: " .. tostring(val) .. "s",
+                Duration = 4,
+            })
+        else
+            Rayfield:Notify({
+                Title = "Invalid Input",
+                Content = "Please enter a valid number.",
+                Duration = 4,
+            })
+        end
+    end,
+})
+
+-- Anti-AFK
+UtilityTab:CreateButton({
+    Name = "Enable Anti-AFK",
+    Callback = function()
+        local GC = getconnections or get_signal_cons
+        if GC then
+            for _, v in pairs(GC(plr.Idled)) do
+                if v.Disable then v:Disable() elseif v.Disconnect then v:Disconnect() end
+            end
+        else
+            local vu = cloneref(game:GetService("VirtualUser"))
+            plr.Idled:Connect(function()
+                vu:CaptureController()
+                vu:ClickButton2(Vector2.new())
+            end)
+        end
+        Rayfield:Notify({
+            Title = "Anti-AFK Enabled",
+            Content = "You're now protected from idle kick.",
+            Duration = 5,
+        })
+    end,
+})
+
+-- Credits Info
+InfoTab:CreateParagraph({
+    Title = "Credits",
+    Content = "Made by Norqueloid\nYoutube: https://www.youtube.com/@norqueloid"
+})
